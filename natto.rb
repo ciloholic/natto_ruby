@@ -23,11 +23,11 @@ path = `echo \`mecab-config --dicdir\`"/mecab-ipadic-neologd"`
 natto = Natto::MeCab.new("-d #{path.chomp}")
 wordList = {}
 doc.css('body').each do |elm|
-  text = Sanitize.clean(elm.content).gsub(/\s/, '')
+  text = Sanitize.clean(elm.content)
   natto.parse(text) do |n|
     wordList[n.surface] ? wordList[n.surface] += 1 : wordList[n.surface] = 1 if n.feature.match('名詞')
   end
 end
 
 # 降順ソート後、先頭10件を表示
-pp wordList.sort_by{|_, v| -v}.take(10)
+pp wordList.sort_by{|_, v| -v}.take(30)
